@@ -4,11 +4,13 @@ let pixelLength = 20;
 let yellowRegions = [];
 
 class MyRect {
-  constructor(x, y, w, h, type) {
+  constructor(x, y, width, hight, type) {
     this.x = x;
     this.y = y;
-    this.w = w;
-    this.h = h;
+    this.width = width;
+    this.hight = hight;
+    this.d = int(random(4)) + 1;
+    this.dd = int(random(4)) + 1;
     this.type = type;
   }
 
@@ -25,8 +27,28 @@ class MyRect {
     } else if (this.type == 4) {
       fill(34, 80, 149); // blue
     }
-    rect(0, 0, this.w, this.h);
+    rect(0, 0, this.width, this.hight);
     pop();
+  }
+
+  update() {
+    if (checkNext(this.dd, { x: this.x, y: this.y }, speed)) {
+      if (this.dd == 1) {
+        // up
+        this.y = this.y - speed;
+      } else if (this.dd == 2) {
+        // right
+        this.x = this.x + speed;
+      } else if (this.dd == 3) {
+        // down
+        this.y = this.y + speed;
+      } else if (this.dd == 4) {
+        // left
+        this.x = this.x - speed;
+      }
+    } else {
+      this.dd = int(random(4)) + 1;
+    }
   }
 }
 
@@ -150,5 +172,25 @@ function generateRandomRectangles() {
         new MyRect(region.x, region.y, pixelLength, pixelLength, 4)
       );
     }
+  }
+}
+
+function checkNext(dd, pos, speed) {
+  if (dd == 1) {
+    // up
+    let col = get(pos.x, pos.y - speed);
+    return col[0] === 250 && col[1] === 201 && col[2] === 1;
+  } else if (dd == 2) {
+    // right
+    let col = get(pos.x + pixelLength + speed, pos.y);
+    return col[0] === 250 && col[1] === 201 && col[2] === 1;
+  } else if (dd == 3) {
+    // down
+    let col = get(pos.x, pos.y + pixelLength + speed);
+    return col[0] === 250 && col[1] === 201 && col[2] === 1;
+  } else if (dd == 4) {
+    // left
+    let col = get(pos.x - speed, pos.y);
+    return col[0] === 250 && col[1] === 201 && col[2] === 1;
   }
 }
