@@ -1,9 +1,11 @@
-let staticRects = [];
-let moveRects = [];
+let staticRects = []; //contain roads and buildings
+let moveRects = []; //contain the small rectangles
 let pixelLength = 20;
 let yellowRegions = [];
-let bgColor = 255;
+let speed = 1; //control animation speed
+let bgColor = 255; //control the color change of background
 
+// create a rectangle class
 class MyRect {
   constructor(x, y, width, hight, type) {
     this.x = x;
@@ -32,6 +34,7 @@ class MyRect {
     pop();
   }
 
+  // check next location and change direction
   update() {
     if (checkNext(this.dd, { x: this.x, y: this.y }, speed)) {
       if (this.dd == 1) {
@@ -53,6 +56,7 @@ class MyRect {
   }
 }
 
+//create canvas and draw out roads and buildings
 function setup() {
   createCanvas(1000, 1000);
 
@@ -124,7 +128,7 @@ function setup() {
 }
 
 function draw() {
-  background(240);
+  background(bgColor);
 
   for (let i = 0; i < staticRects.length; i++) {
     staticRects[i].draw();
@@ -141,6 +145,7 @@ function draw() {
     moveRects[i].update();
   }
 
+  //let background goes darker after certain time
   if (frameCount % 5 == 0 && bgColor > 0) {
     bgColor--;
 
@@ -166,6 +171,7 @@ function detectYellowRegions() {
   updatePixels();
 }
 
+//create multiple small rectangles on the road
 function generateRandomRectangles() {
   for (let i = 0; i < 300; i++) {
     let region = random(yellowRegions);
@@ -188,6 +194,7 @@ function generateRandomRectangles() {
   }
 }
 
+// check if next target loaction is inside yellow road or not
 function checkNext(dd, pos, speed) {
   if (dd == 1) {
     // up
