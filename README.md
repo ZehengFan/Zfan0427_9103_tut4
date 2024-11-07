@@ -1,7 +1,7 @@
 # Zfan0427_9103_tut4
-# How to interact with this project
+## How to interact with this project
 - This project **doesn't** require any interaction, just watch the animation and see how it changes. The small rectangles will start moving when page loading complete, and the background colour will become darker and darker by time goes, and small rectangles number will decrease by the background goes darker.
-# Specific information
+### Specific information
 - This project is a **time-based** animation project.
 - In this project, small rectangles will start moving, and background colour will goes deeper by time, small rectangles number also decrease by the time goes.
 - This project was inspired by this video below.
