@@ -1,7 +1,8 @@
 let staticRects = [];
-let smallRects = [];
+let moveRects = [];
 let pixelLength = 20;
 let yellowRegions = [];
+let bgColor = 255;
 
 class MyRect {
   constructor(x, y, width, hight, type) {
@@ -135,8 +136,20 @@ function draw() {
     generateRandomRectangles();
   }
 
-  for (let i = 0; i < smallRects.length; i++) {
-    smallRects[i].draw();
+  for (let i = 0; i < moveRects.length; i++) {
+    moveRects[i].draw();
+    moveRects[i].update();
+  }
+
+  if (frameCount % 5 == 0 && bgColor > 0) {
+    bgColor--;
+
+    let lastIndex = int(map(bgColor, 255, 0, 300, 0));
+    let count = moveRects.length - lastIndex;
+    for (let i = 0; i < count; i++) {
+      const randomIndex = floor(random() * moveRects.length);
+      moveRects.splice(randomIndex, 1);
+    }
   }
 }
 
@@ -160,15 +173,15 @@ function generateRandomRectangles() {
 
     noStroke();
     if (colorIndex == 0) {
-      smallRects.push(
+      moveRects.push(
         new MyRect(region.x, region.y, pixelLength, pixelLength, 3)
       );
     } else if (colorIndex == 1) {
-      smallRects.push(
+      moveRects.push(
         new MyRect(region.x, region.y, pixelLength, pixelLength, 2)
       );
     } else if (colorIndex == 2) {
-      smallRects.push(
+      moveRects.push(
         new MyRect(region.x, region.y, pixelLength, pixelLength, 4)
       );
     }
